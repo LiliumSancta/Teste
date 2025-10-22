@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Animado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Fundo degradê */
+            color: white;
+            overflow: hidden; /* Para evitar barras de rolagem desnecessárias */
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px); /* Efeito de vidro fosco */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fadeInScale 1.5s ease-out forwards; /* Animação de entrada */
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: textColorChange 5s infinite alternate; /* Animação de cor do texto */
+        }
+
+        p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #28a745; /* Cor verde para o botão */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-3px); /* Pequeno efeito ao passar o mouse */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animações CSS */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes textColorChange {
+            0% { color: white; }
+            50% { color: #fdfd96; } /* Amarelo claro */
+            100% { color: white; }
+        }
+
+        /* Animação para partículas de fundo (opcional, para um toque extra) */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: floatUp 15s infinite ease-in-out;
+            opacity: 0; /* Começam invisíveis */
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="helloMessage">Hello World!</h1>
+        <p>Bem-vindo à sua página interativa e animada.</p>
+        <button id="changeTextButton">Mudar Mensagem</button>
+    </div>
+
+    <script>
+        // JavaScript para interatividade
+        const helloMessage = document.getElementById('helloMessage');
+        const changeTextButton = document.getElementById('changeTextButton');
+        let isOriginalText = true;
+
+        changeTextButton.addEventListener('click', () => {
+            if (isOriginalText) {
+                helloMessage.textContent = 'Olá Mundo!';
+                changeTextButton.textContent = 'Voltar ao Original';
+            } else {
+                helloMessage.textContent = 'Hello World!';
+                changeTextButton.textContent = 'Mudar Mensagem';
+            }
+            isOriginalText = !isOriginalText;
+        });
+
+        // JavaScript para criar partículas animadas no fundo
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            document.body.appendChild(particle);
+
+            const size = Math.random() * 10 + 5; // Tamanho entre 5px e 15px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`; // Posição horizontal aleatória
+            particle.style.animationDuration = `${Math.random() * 10 + 5}s`; // Duração da animação
+            particle.style.animationDelay = `${Math.random() * -10}s`; // Começa em tempos diferentes
+
+            // Remover a partícula após a animação para otimização
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // Crie algumas partículas no carregamento e continue criando novas
+        for (let i = 0; i < 20; i++) {
+            createParticle();
+        }
+
+        setInterval(createParticle, 500); // Cria uma nova partícula a cada 0.5 segundos
+
+    </script>
+</body>
+</html>
